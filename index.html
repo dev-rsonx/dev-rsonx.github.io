@@ -16,79 +16,23 @@
 <title>Rakesh Lal</title>
 
 <style>
-.container-main {
-   margin: 10px;
-}
-.containerA {
-   margin: 10px;
-   padding-left: 10px;
-   padding-bottom: 10px;
-}
-.containerB {
-   margin: 10px;
-   padding-left: 10px;
-   padding-bottom: 10px;
-}
-.containerC {
-   margin: 10px;
-   padding-left: 10px;
-   padding-bottom: 10px;
-}
 .heading-title {
     font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
     margin-left: 1vw;
     margin-top: 3vh;
 }
-.contact-details {
-    margin-left: 1vw;
-    margin-top: 5vh;
-    width: fit-content;
-    background-color: rgb(90, 76, 86);
-    color: wheat;
-    font-family: 'Roboto Slab','Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-}
-.contact-details .con-table {
-    padding: 10px;
-}
-.contact-details .con-text {
-    color: white;
-}
-.contact-details .con-attrib {
-    width: 5vw;
-}
-.contact-details .con-semicolon {
-    width: 3vw;
-}
-.contact-details .con-value {
-    width: 10vw;
-}
-.academic-details {
-    margin-left: 1vw;
-    margin-top: 5vh;
-    width: fit-content;
-    font-family: 'Roboto Slab','Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-}
-.academic-details .aca-table {
-    padding: 10px;
-}
-.academic-details .aca-text {
-    color: white;
-}
-.academic-details .aca-attrib {
-    width: 10vw;
-}
-.academic-details .aca-duration {
-    width: 10vw;
-}
-.academic-details .aca-value {
-}
 </style>
+<link rel="stylesheet" type="text/css" href="containers.css">
+<link rel="stylesheet" type="text/css" href="contact.css">
+<link rel="stylesheet" type="text/css" href="academic.css">
+<link rel="stylesheet" type="text/css" href="project.css">
+<link rel="stylesheet" type="text/css" href="contribution.css">
 </head>
 
 <body>
 <div class="container-main border rounded-lg">
 <!--containerA starts-->
-<div class="border containerA rounded-lg">
+<div class="form border containerA rounded-lg">
 <h3 class="heading-title">Rakesh Lal</h3>
 <div class="contact-details rounded-lg">
 <div class="con-table">
@@ -97,10 +41,10 @@
         <td class="con-attrib con-text">email</td><td class="con-semicolon con-text">:</td><td class="con-value con-text">rakeshlal.791c@gmail.com</td>
     </tr>
     <tr>
-        <td class="con-attrib con-text">phone</td><td class="con-semicolon con-text">:</td><td class="con-value con-text">89323432039</td>
+        <td class="con-attrib con-text">phone</td><td class="con-semicolon con-text">:</td><td class="con-value con-text">(+91)-9999999999</td>
     </tr>
     <tr>
-        <td class="con-attrib con-text">address</td><td class="con-semicolon con-text">:</td><td class="con-value con-text">some address</td>
+        <td class="con-attrib con-text">address</td><td class="con-semicolon con-text">:</td><td class="con-value con-text">Some address</td>
     </tr>
 </table>
 </div>
@@ -112,23 +56,75 @@
 <h4 class="heading-title">Academics</h4>
 <div class="academic-details rounded-lg">
 <div class="aca-table">
-<table>
+<table style="height: 90px;">
     <tr>
-        <td class="aca-duration">2013 - 2015</td><td class="aca-attrib">High School</td><td class="aca-value">D.A.V Public School, Adityapur</td>
+        <td class="aca-duration">2013- 2015</td><td class="aca-attrib">High School</td><td class="aca-value">D.A.V Public School, Adityapur</td>
     </tr>
+
     <tr>
-        <td class="aca-duration">2016 - 2020</td><td class="aca-attrib">B.Tech</td><td class="aca-value">R.V.S College of Engineering and Technology</td>
+        <td class="aca-duration">2016- 2020</td><td class="aca-attrib">B.Tech</td><td class="aca-value">R.V.S College of Engineering and Technology</td>
     </tr>
 </table>
 </div>
 </div>
 <!--containerB ends-->
 </div>
+<!--containerC starts-->
 <div class="containerC border rounded-lg">
-<h4 class="heading-title">More content comming soon....</h4>
+<h4 class="heading-title">Projects</h4>
+<div class="project-details rounded-lg">
+<div>
+    <ol>
+        <li class="pro-list" style="font-size: 20px;">
+        <div>Project 1</div>
+        <div style="font-size: 15px;" class="pro-description">Long big description of my project 1. About what it does. Some extra text as well. Infact let me just put some random multiple lines of text.</div>
+        <div style="font-size: 15px;" class="pro-link">link</div>
+        <hr>
+        </li>
+
+        <li class="pro-list"style="font-size: 20px;">
+        <div>Project 2</div>
+        <div style="font-size: 15px;" class="pro-description">Long big description of my project 1. About what it does. Some extra text as well. Infact let me just put some random multiple lines of text.</div>
+        <div style="font-size: 15px;" class="pro-link">link</div>
+        <hr>
+        </li>
+
+        <li class="pro-list" style="font-size: 20px;">
+        <div>Project 3</div>
+        <div style="font-size: 15px;" class="pro-description">Long big description of my project 1. About what it does. Some extra text as well. Infact let me just put some random multiple lines of text.</div>
+        <div style="font-size: 15px;" class="pro-link">link</div>
+        </li>
+    </ol>
+</div>
+</div>
+<!--containerC ends-->
+</div>
+<!--containerD starts-->
+<div class="containerD border rounded-lg">
+<h4 class="heading-title">Experience</h4>
+<div class="contribution-details rounded-lg">
+<div>
+    <ol>
+        <li class="contrib-list" style="font-size: 20px;" >
+        <div>Interned at Haiku Inc. for Google Summer of Code 2020 (gsoc 20)</div>
+        <div style="font-size: 15px;" class="contrib-description">Long big description of my contribution to A. About what it does. Some extra text as well. Infact let me just put some random multiple lines of text.</div>
+        <div style="font-size: 17px; font-weight: bold; margin-top: 20px;">commits</div>
+        <ul style="overflow:hidden">
+            <li class="commit-list" style="font-size: 15px; color: rgb(21, 133, 21);">b23e1805c05c 94bf8b4c0c2265 b62d6bba9c1a6b</li>
+            <li class="commit-list" style="font-size: 15px; color: rgb(21, 133, 21);">b23e1805c05c 94bf8b4c0c2265 b62d6bba9c1a6b</li>
+            <li class="commit-list" style="font-size: 15px; color: rgb(21, 133, 21);">b23e1805c05c 94bf8b4c0c2265 b62d6bba9c1a6b</li>
+        </ul>
+        <div style="font-size: 15px;" class="contrib-link">link</div>
+        <hr>
+        </li>
+    </ol>
+</div>
+</div>
+<!--containerD ends-->
 </div>
 <!--containerMain ends-->
 </div>
+
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

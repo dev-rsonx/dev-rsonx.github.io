@@ -1,0 +1,23 @@
+.contact-details {
+    margin-left: 1vw;
+    margin-top: 5vh;
+    width: fit-content;
+    background-color: rgb(90, 76, 86);
+    color: wheat;
+    font-family: 'Roboto Slab','Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.contact-details .con-table {
+    padding: 10px;
+}
+.contact-details .con-text {
+    color: white;
+}
+.contact-details .con-attrib {
+    width: 5vw;
+}
+.contact-details .con-semicolon {
+    width: 3vw;
+}
+.contact-details .con-value {
+    width: 10vw;
+}

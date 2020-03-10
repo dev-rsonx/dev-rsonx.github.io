@@ -1,0 +1,15 @@
+.project-details {
+    margin-left: 1vw;
+    margin-top: 5vh;
+    width: fit-content;
+    font-family: 'Roboto Slab','Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.project-details .pro-list {
+    margin-top: 20px;
+}
+.project-details .pro-list .pro-description {
+    margin-top: 10px;
+}
+.project-details .pro-list .pro-link {
+    margin-top: 30px;
+}
