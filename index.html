@@ -1,139 +1,628 @@
 <html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">        
+        <title></title>
+        <style>
+            .navbar {
+                margin: 0px;
+                height: 45px;
+                background-color: rgb(92, 50, 139);
+                position: -webkit-sticky;
+                position: sticky;
+                top: 0px;
+                border-width: 1px;
+                border-color: rgb(255, 255, 255);
+                border-style: solid;
+                display: block;
+                text-align: center;
+            }
+            .navbar .header {
+                background-color: rgb(44, 42, 42);
+                height: 88%;
+                width: fit-content;
+                color: white;
+                font-size: 25px;
+                padding-top: 5px;
+                padding-left: 10px;
+                padding-right: 10px; 
+                float: left;
+                display:inline-flex;
+            }
+            .navbar .title {
+                color: white;
+                font-size: 100%;
+                padding-top: 10px;
+                display: inline-flex;
+            }
+            .content {
+                background-color: rgb(54, 54, 54);
+                margin-top: 10px;
+                padding: 10px;
+                height: fit-content;
+                width: fit-content;
+                color: white;
+            }
+            .content .myHeading {
+                margin-top: 25px;
+                color: coral;
+            }
+            .content-body {
+                margin-top: 10px;
+                margin-bottom: 5px;
+            }
+            .content .content-body .keypoints {
+                color: rgb(247, 155, 155);
+                display: inline;
+            }
+            .content .content-body ul li a{
+                color: rgb(152, 177, 231);
+            }
+            
+            @media only screen and (max-width: 1500px){
+                .image-txt-container {
+                    display:flex;
+                    align-items: top;
+                    flex-direction: row;
+                }
+                .kb-to-arduino {
+                    margin-left: 100px;
+                }
+            }
+            @media only screen and (max-width: 800px){
+                .image-txt-container {
+                    display:block;
+                    align-items: top;
+                }
+                .kb-to-arduino {
+                    margin-top: 10px;
+                    margin-left: 0px;
+                }
+                pre {
+                    overflow: auto;
+                    max-width: 720px;
+                }
+            }
+            @media only screen and (max-width: 600px){
+                .image-txt-container {
+                    display:block;
+                    align-items: top;
+                }
+                .kb-to-arduino {
+                    margin-top: 10px;
+                    margin-left: 0px;
+                }
+                pre {
+                    overflow: scroll;
+                    max-width: 400px;
+                }
+            }
+			.code {
+                background-color: rgb(46, 116, 67);
+				width: fit-content;
+				height: fit-content;
+				display: inline;
+				padding-left: 3px;
+				padding-right: 3px;
+            }
+            body {
+                background-color: rgb(19, 43, 43);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="navbar">
+            <div class="header">
+                rsonx
+            </div>
+            <div class="title">
+                Mini Keyboard to MIDI Controller
+            </div>
+        </div>
+        <div class="content">
+            <div class="myHeading">
+                <u><b>Description:</b></u>
+            </div>
+            <div class="content-body">
+                This tutorial explains how to use Arduino to convert a broken music keyboard into a midi controller for a PC.
+                <br>
+                <br>
+                This tutorial uses Casio SA-78A music keyboard with 44 keys. But you could use any musical keyboard.
+                <br>
+                <div class="keypoints">Also all the softwares and tools used in this tutorial are completely free, some are even open sourced.</div>
+            </div>
+            <hr>
 
-<head>
-<link rel="icon" href="/favicon.ico" type="image/x-icon">
+            <div class="myHeading">
+                <u><b>Materials needed:</b></u>
+            </div>
+            <div class="content-body">
+                <ul>
+                    <li>
+                        <a href="https://store.arduino.cc/usa/mega-2560-r3" style="text-decoration: none" target="_blank">Arduino Mega 2650 [link]<br>(Any Arduino board can be used)</a>
+                        <br>
+                        <img style="height: 150px; width: 170px;" src="https://store-cdn.arduino.cc/usa/catalog/product/cache/1/image/500x375/f8876a31b63532bbba4e781c30024a0a/a/0/a000067_front_1_.jpg"></img>
+                    </li>
+                    <li>
+                        <a href="https://www.casio-intl.com/in/en/emi/products/sa78/" style="text-decoration: none" target="_blank">Casio SA-78A Musical Keyboard [link]<br>(any Music keyboard can be used)</a>
+                        <br>
+                        <img style="height: 150px; width: 170px;" src="https://www.casio-intl.com/cs/Satellite?blobcol=urldata&blobheader=image%2Fjpeg&blobheadername1=content-disposition&blobheadervalue1=inline%3Bfilename%3DSA-78_R.jpg&blobkey=id&blobtable=MungoBlobs&blobwhere=1426176962996&ssbinary=true"></img>
+                    </li>
+                    <li><a href="https://www.arduinolibraries.info/libraries/midi-library" style="text-decoration: none;">Arduino MIDI Library (Available at Arduino's Library Manager) [link]</a></li>
+                    <li><a href="https://projectgus.github.io/hairless-midiserial/" style="text-decoration: none;" target="_blank">Hairless: midi to serial bridge [link]</a></li>
+                    <li><a href="#" style="text-decoration: none;">Virtual Midi driver. (Depends upon the Operating System.)
+                        <br><div style="color: rgb(110, 206, 110)">(LoopBe1, Midi Yoke, Copper Lan, Microsoft GS Wavelength are some of the available contestants)</div></a></li>
+                        <br>For me Microsoft's GS Wavelength and Copper Lan worked pretty well.
+                </ul>
+            </div>
+            <hr>
+            
+            <div class="myHeading">
+                <u><b>A brief background on what motivated me for this project:</b></u>
+            </div>
+            <div class="content-body">
+                My father bought Casio SA-78A to learn playing keyboard.
+                After few months of using, it stopped working.
+                It turned out that the power adapter was faulty and caused a voltage surge which damaged the onboard sound processor.
+                <br><br>
+                With no repair options. I decided to convert it into a midi controller for PC to be used with DAW (Digital Audio Workstation: like Fruity Loops Studio).
+                <br><br>
+                While I was working on this project. I faced several difficulties and many setbacks. Most of my effort went in researching the efficient methods that could be employed to make this project a success, including programming the Arduino.
+                <br>
+                I decided to make this tutorial, to make it easier for people who are doing a similar project. 
+            </div>
+            <hr>
 
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <div class="myHeading">
+                <u><b>Understanding the keyboard circuitry:</b></u>
+            </div>
+            <div class="content-body">
+                The keyboard can be disassembled by unscrewing all the screws from the bottom.
+                <br>
+                After removing the top case, you will be greeted with three circuit boards.
+                <ol>
+                    <li>A power supply board</li>
+                    <li>A main board with sound processor, display and control buttons</li>
+                    <li>A key circuit board</li>
+                </ol>
+                <img style="height: 250px; width: 380px; border-style:solid; border-width: medium;" src="three_boards.jpeg"></img>
+                <br>
+                <div style="color: aqua">We are only interested in the key circuit board.</div>
+                <br>
+                <br>
+                The keyboard has 44 keys. But only 14 wires are connecting the key circuit board with the main board.
+                <br>
+                <br>
+                It turns out that the 44 keys are divided into 6 segments each with 8 keys, totalling 6 x 8 = 48 keys. 
+                To make it 44 keys the last segment (segment 6) has only 4 keys.
+                <br>
+                <br>
+                Just for convenience, lets represent the segments as SEG and each of the 8 keys in a segment as BTN (button).
+                <br>
+                i.e SEG wires/pins goes from SEG1 to SEG6. Whereas BTN wires/pins goes from BTN1 to BTN8.
+                <br>
+                <br>
+                <div class="keypoints">
+                    The key-controller sequentially connects VCC at every SEG wire and then probe each 8 of the BTN wires to check whether if the circuit is closed.
+                    Continuity from a SEG wire to a BTN wire represents that the probed BTN of that particular SEG has been pressed.
+                    <br>
+                    i.e The switch corresponding to that particular key is closed.
+                </div>
+                <br><br>    
+                Every pair of SEG and a BTN is mapped to a unique key on the keyboard.
+                <br>
+                For example (SEG2,BTN8) might be mapped to a key with Note C# on the keyboard.
+                <br>
+                <br>
+                We need to connect these 14 pins from the key circuit board to analog or digital pins of the Arduino.
+                <br>
+                <br>
+                To keep the connection permanent and reliable, 
+                I had the ribbon cable from the key circuit board been soldered onto the Arduino's analog pins (A0 to A13).
+                <br>
+                <br>
+                <div class="image-txt-container">
+                    <img style="height: 250px; width: 380px; border-style:solid; border-width: medium;" src="keyboard_to_arduino.jpeg"></img>
+                    <pre class="kb-to-arduino">
+SEG1 SEG2 SEG3 SEG4 SEG5 SEG6 BTN1 BTN2 BTN3 BTN4 BTN5 BTN6 BTN7 BTN8 
+ |    |    |    |    |    |    |    |    |    |    |    |    |    |
+ |    |    |    |    |    |    |    |    |    |    |    |    |    |
+ |    |    |    |    |    |    |    |    |    |    |    |    |    |
+ A0   A1   A2   A3   A4   A5   A6   A7   A8   A9   A10  A11 A12  A13
+                    </pre>
+                </div>
+            </div>
+            <hr>
+            
+            <div class="myHeading">
+                <u><b>Understanding the logic:</b></u>
+            </div>
+            <div class="content-body">
+                We need the Arduino to sequentially apply potential at the SEG pins and then for each SEG check the continuity at each BTN pins.
+                Presence of a continuity represents that the certain key of that segment has been pressed.
+                <br>
+                On the board these keys are labeled as switches ranging from <div class="keypoints">S1 to S44</div> (for 44 keys).
+                <br><br>
+                Here is a table showing the mapping between these switches (keys) and the pair of SEG and BTN.
+                <pre>
+     ||   SEG1| SEG2| SEG3| SEG4| SEG5| SEG6
+=====||=======|=====|=====|=====|=====|=====
+BTN1 ||    S1 | S9  | S17 | S25 | S33 | S41 
+-----||-------|---- |-----|-----|-----|----
+BTN2 ||    S2 | S10 | S18 | S26 | S34 | S42
+-----||-------|-----|-----|-----|-----|----
+BTN3 ||    S3 | S11 | S19 | S27 | S35 | S43
+-----||-------|-----|-----|-----|-----|----
+BTN4 ||    S4 | S12 | S20 | S28 | S36 | S44
+-----||-------|-----|-----|-----|-----|----
+BTN5 ||    S5 | S13 | S21 | S29 | S37 | NIL
+-----||-------|-----|-----|-----|-----|----
+BTN6 ||    S6 | S14 | S22 | S30 | S38 | NIL
+-----||-------|-----|-----|-----|-----|----
+BTN7 ||    S7 | S15 | S23 | S31 | S39 | NIL
+-----||-------|-----|-----|-----|-----|----
+BTN8 ||    S8 | S16 | S24 | S32 | S40 | NIL
+                </pre>
+            </div>
+            <br>
+            For this to happen, we must set the pinMode of SEG pins as OUTPUT, because Arduino is writing out a Signal on them.
+            Whereas set the pinMode of BTN pins as INPUT, because Arduino is reading Signal from them.
+            <br><br>
+            After detecting the key-press the Arduino sends out the Note of that key on its serial port. 
+            This is done through the Arduino's MIDI Library, which is available at the Adrduino's Library Manager.
+            <br><br>
+            This key Note sent from the Arduino on its serial port is detected on the PC by a program called "Hairless MIDI to serial bridge". 
+            This program reads the signals from the serial port on the PC and converts them into MIDI inputs.
+            <br><br>
+            This MIDI inputs is detected by the Virtual MIDI driver on the PC which delivers it to the Program which expexcts a MIDI input (like any DAW program).
+            <hr>
 
-<!-- Bootstrap CSS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+            <div class="myHeading">
+                <u><b>Programming the Arduino:</b></u>
+            </div>
+            <div class="content-body">
+                Before moving to programming stuffs. We must first install some dependencies on the PC.
+                <br>
+                All these dependencies are completely free.
+                <ul>
+                    <li><a href="https://www.arduinolibraries.info/libraries/midi-library" style="text-decoration: none;">Install Arduino's MIDI Library (Available at Arduino's Library Manager)[link]</a></li>
+                    <li><a href="https://projectgus.github.io/hairless-midiserial/" style="text-decoration: none;" target="_blank">Hairless: midi to serial bridge [link]</a></li>
+                    <li>
+                        Install a Virtual Midi driver for your OS
+                        <br>
+                        <br>
+                        Any one from this list of drivers might work.
+                        <ul>
+                            <li><a href="https://www.nerds.de/en/loopbe1.html" target="_blank">loopbe1 [link]</a></li>
+                            <li><a href="http://www.midiox.com/index.htm?http://www.midiox.com/myoke.htm" target="_blank">midi yoke [link]</a></li>
+                            <li><a href="https://www.tobias-erichsen.de/software/virtualmidi.html" target="_blank">virtualmidi from tobias-erichsen [link]</a></li>
+                            <li><a href="http://www.copperlan.org/index.php/copperlan-for-end-users" target="_blank">copper lan [link]</a></li>
+                            <li>Microsoft's GS Wavelength Synth (this already comes installed on Windows) </li>
+                        </ul>
+                    </li>
+                </ul>
+                <br><br>
+                We need the Arduino to apply VCC at each SEG pins and then scan every BTN pins to check if any key has been pressed. 
+                If the key is pressed then send the Note to the Serial port.
+                <br><br> 
+                Here is the complete program for the Arduino.
+                <br>
+                <pre style="background-color: rgb(46, 116, 67); padding: 10px; border-radius: 5px; width: fit-content;">
+#include&ltMIDI.h&gt
+MIDI_CREATE_DEFAULT_INSTANCE();
 
-<!--Fonts-->
-<link href="https://fonts.googleapis.com/css?family=Roboto+Slab&display=swap" rel="stylesheet">
+int HIGHX = 255;
+int LOWX = 0;
 
-<script data-ad-client="ca-pub-1758252246401712" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script data-ad-client="pub-1758252246401712" async src="https://pagead2.googlesyndication
-.com/pagead/js/adsbygoogle.js"></script>
+const int DATA_PIN_COUNT = 8;
+const int SEGMENT_PIN_COUNT = 6;
 
-<script data-ad-client="ca-pub-1651221241023460" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+int pinList[] = {A0,A1,A2,A3,A4,A5};
+int NOTELOOKUP[6][8] = {
+  93,94,95,96,0,0,0,0,
+  85,86,87,88,89,90,91,92,
+  77,78,79,80,81,82,83,84,
+  69,70,71,72,73,74,75,76,
+  61,62,63,64,65,66,67,68,
+  53,54,55,56,57,58,59,60
+};
+  
+int NOTE_ON_OFF[6][8] = {
+  0,0,0,0,0,0,0,0,
+  0,0,0,0,0,0,0,0,
+  0,0,0,0,0,0,0,0,
+  0,0,0,0,0,0,0,0,
+  0,0,0,0,0,0,0,0,
+  0,0,0,0,0,0,0,0,
+};
+   
+int k;
 
-<title>Rakesh Lal</title>
+void setup()
+{
+  // Listen to all incoming messages
+  MIDI.begin(MIDI_CHANNEL_OMNI);
+  Serial.begin(256000);
+  
+  //definig pins
+  pinMode(A13,INPUT);
+  pinMode(A12,INPUT);
+  pinMode(A11,INPUT);
+  pinMode(A10,INPUT);
+  pinMode(A9,INPUT);
+  pinMode(A8,INPUT);
+  pinMode(A7,INPUT);
+  pinMode(A6,INPUT);
 
-<style>
-.heading-title {
-    font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
-    margin-left: 1vw;
-    margin-top: 3vh;
+  pinMode(A13,INPUT_PULLUP);
+  pinMode(A12,INPUT_PULLUP);
+  pinMode(A11,INPUT_PULLUP);
+  pinMode(A10,INPUT_PULLUP);
+  pinMode(A9,INPUT_PULLUP);
+  pinMode(A8,INPUT_PULLUP);
+  pinMode(A7,INPUT_PULLUP);
+  pinMode(A6,INPUT_PULLUP);
+
+  pinMode(A5,OUTPUT);
+  pinMode(A4,OUTPUT);
+  pinMode(A3,OUTPUT);
+  pinMode(A2,OUTPUT);
+  pinMode(A1,OUTPUT);
+  pinMode(A0,OUTPUT);
+
+  analogWrite(A5,HIGHX);
+  analogWrite(A4,HIGHX);
+  analogWrite(A3,HIGHX);
+  analogWrite(A2,HIGHX);
+  analogWrite(A1,HIGHX);
+  analogWrite(A0,HIGHX);
+
+  k=0;
 }
-</style>
-<link rel="stylesheet" type="text/css" href="containers.css">
-<link rel="stylesheet" type="text/css" href="contact.css">
-<link rel="stylesheet" type="text/css" href="academic.css">
-<link rel="stylesheet" type="text/css" href="project.css">
-<link rel="stylesheet" type="text/css" href="contribution.css">
-</head>
-
-<body>
-<div class="container-main border rounded-lg">
-<!--containerA starts-->
-<div class="form border containerA rounded-lg">
-<h3 class="heading-title">Rakesh Lal</h3>
-<div class="contact-details rounded-lg">
-<div class="con-table">
-<table>
-    <tr>
-        <td class="con-attrib con-text">email</td><td class="con-semicolon con-text">:</td><td class="con-value con-text">rakeshlal.791c@gmail.com</td>
-    </tr>
-    <tr>
-        <td class="con-attrib con-text">phone</td><td class="con-semicolon con-text">:</td><td class="con-value con-text">(+91)-9999999999</td>
-    </tr>
-    <tr>
-        <td class="con-attrib con-text">address</td><td class="con-semicolon con-text">:</td><td class="con-value con-text">Some address</td>
-    </tr>
-</table>
-</div>
-</div>
-<!--containerA ends-->
-</div>
-<!--conatinerB starts-->
-<div class="containerB border rounded-lg">
-<h4 class="heading-title">Academics</h4>
-<div class="academic-details rounded-lg">
-<div class="aca-table">
-<table style="height: 90px;">
-    <tr>
-        <td class="aca-duration">2013- 2015</td><td class="aca-attrib">High School</td><td class="aca-value">My School</td>
-    </tr>
-
-    <tr>
-        <td class="aca-duration">2016- 2020</td><td class="aca-attrib">B.Tech</td><td class="aca-value">My College</td>
-    </tr>
-</table>
-</div>
-</div>
-<!--containerB ends-->
-</div>
-<!--containerC starts-->
-<div class="containerC border rounded-lg">
-<h4 class="heading-title">Projects</h4>
-<div class="project-details rounded-lg">
-<div>
-    <ol>
-        <li class="pro-list" style="font-size: 20px;">
-        <div>Created a nes emulator</div>
-        <div style="font-size: 15px;" class="pro-description">Nintendo Entertainment System Emulator. About what it does. Some extra text as well. Infact let me just put some random multiple lines of text.</div>
-        <div style="font-size: 15px;" class="pro-link">link</div>
-        <hr>
-        </li>
-
-        <li class="pro-list"style="font-size: 20px;">
-        <div>Designed a C like compiler</div>
-        <div style="font-size: 15px;" class="pro-description">C like compiler targeted at x86 system. About what it does. Some extra text as well. Infact let me just put some random multiple lines of text.</div>
-        <div style="font-size: 15px;" class="pro-link">link</div>
-        <hr>
-        </li>
-
-        <li class="pro-list" style="font-size: 20px;">
-        <div>x86 Legacy Bootloader Program</div>
-        <div style="font-size: 15px;" class="pro-description">Long big description of my project 1. About what it does. Some extra text as well. Infact let me just put some random multiple lines of text.</div>
-        <div style="font-size: 15px;" class="pro-link">link</div>
-        </li>
-    </ol>
-</div>
-</div>
-<!--containerC ends-->
-</div>
-<!--containerD starts-->
-<div class="containerD border rounded-lg">
-<h4 class="heading-title">Experience</h4>
-<div class="contribution-details rounded-lg">
-<div>
-    <ol>
-        <li class="contrib-list" style="font-size: 20px;" >
-        <div>Interned at Haiku Inc. for Google Summer of Code 2020 (gsoc 20)</div>
-        <div style="font-size: 15px;" class="contrib-description">Long big description of my contribution to A. About what it does. Some extra text as well. Infact let me just put some random multiple lines of text.</div>
-        <div style="font-size: 17px; font-weight: bold; margin-top: 20px;">commits</div>
-        <ul style="overflow:hidden">
-            <li class="commit-list" style="font-size: 15px;"><a href="#" style="color: rgb(21, 133, 21);">b23e1805c05c 94bf8b4c0c2265 b62d6bba9c1a6b</a></li>
-            <li class="commit-list" style="font-size: 15px;"><a href="#" style="color: rgb(21, 133, 21);">b23e1805c05c 94bf8b4c0c2265 b62d6bba9c1a6b</a></li>
-            <li class="commit-list" style="font-size: 15px;"><a href="#" style="color: rgb(21, 133, 21);">b23e1805c05c 94bf8b4c0c2265 b62d6bba9c1a6b</a></li>
-        </ul>
-        <div style="font-size: 15px;" class="contrib-link">link</div>
-        <hr>
-        </li>
-    </ol>
-</div>
-</div>
-<!--containerD ends-->
-</div>
-<!--containerMain ends-->
-</div>
-
-
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-</body>
+ 
+void loop() {
+  k = k + 1;
+  if(k>=6){
+    k = 0;
+  }
+  //Segment k  
+  analogWrite(pinList[k],LOWX);
+  //--------------------------------------------
+  //BTN1
+  if(analogRead(13)&lt900){
+    if(NOTE_ON_OFF[k][0] != 1){
+      MIDI.sendNoteOn(NOTELOOKUP[k][0], 127, 1);
+      NOTE_ON_OFF[k][0] = 1;
+    }
+  }
+  else{
+    if(NOTE_ON_OFF[k][0] != 0){
+      MIDI.sendNoteOff(NOTELOOKUP[k][0], 0, 1);
+      NOTE_ON_OFF[k][0] = 0;
+    }
+  }
+  //--------------------------------------------
+  //BTN2
+  if(analogRead(12)&lt900){
+    if(NOTE_ON_OFF[k][1] != 1){
+      MIDI.sendNoteOn(NOTELOOKUP[k][1], 127, 1);
+      NOTE_ON_OFF[k][1] = 1;
+    }
+  }
+  else{
+    if(NOTE_ON_OFF[k][1] != 0){
+      MIDI.sendNoteOff(NOTELOOKUP[k][1], 0, 1);
+      NOTE_ON_OFF[k][1] = 0;
+    }
+  }
+  //--------------------------------------------
+  //BTN3
+  if(analogRead(11)&lt900){
+    if(NOTE_ON_OFF[k][2] != 1){
+      MIDI.sendNoteOn(NOTELOOKUP[k][2], 127, 1);
+      NOTE_ON_OFF[k][2] = 1;
+    }
+  }
+  else{
+    if(NOTE_ON_OFF[k][2] != 0){
+      MIDI.sendNoteOff(NOTELOOKUP[k][2], 0, 1);
+      NOTE_ON_OFF[k][2] = 0;
+    }
+  }
+  //--------------------------------------------
+  //BTN4
+  if(analogRead(10)&lt900){
+    if(NOTE_ON_OFF[k][3] != 1){
+      MIDI.sendNoteOn(NOTELOOKUP[k][3], 127, 1);
+      NOTE_ON_OFF[k][3] = 1;
+    }
+  }
+  else{
+    if(NOTE_ON_OFF[k][3] != 0){
+      MIDI.sendNoteOff(NOTELOOKUP[k][3], 0, 1);
+      NOTE_ON_OFF[k][3] = 0;
+    }
+  }
+  //--------------------------------------------
+  //BTN5
+  if(analogRead(9)&lt900){
+    if(NOTE_ON_OFF[k][4] != 1){
+      MIDI.sendNoteOn(NOTELOOKUP[k][4], 127, 1);
+      NOTE_ON_OFF[k][4] = 1;
+    }
+  }
+  else{
+    if(NOTE_ON_OFF[k][4] != 0){
+      MIDI.sendNoteOff(NOTELOOKUP[k][4], 0, 1);
+      NOTE_ON_OFF[k][4] = 0;
+    }
+  }
+  //--------------------------------------------
+  //BTN6
+  if(analogRead(8)&lt900){
+    if(NOTE_ON_OFF[k][5] != 1){
+      MIDI.sendNoteOn(NOTELOOKUP[k][5], 127, 1);
+      NOTE_ON_OFF[k][5] = 1;
+    }
+  }
+  else{
+    if(NOTE_ON_OFF[k][5] != 0){
+      MIDI.sendNoteOff(NOTELOOKUP[k][5], 0, 1);
+      NOTE_ON_OFF[k][5] = 0;
+    }
+  }
+  //--------------------------------------------
+  //BTN7
+  if(analogRead(7)&lt900){
+    if(NOTE_ON_OFF[k][6] != 1){
+      MIDI.sendNoteOn(NOTELOOKUP[k][6], 127, 1);
+      NOTE_ON_OFF[k][6] = 1;
+    }
+  }
+  else{
+    if(NOTE_ON_OFF[k][6] != 0){
+      MIDI.sendNoteOff(NOTELOOKUP[k][6], 0, 1);
+      NOTE_ON_OFF[k][6] = 0;
+    }
+  }
+  //--------------------------------------------
+  //BTN8
+  if(analogRead(6)&lt900){
+    if(NOTE_ON_OFF[k][7] != 1){
+      MIDI.sendNoteOn(NOTELOOKUP[k][7], 127, 1);
+      NOTE_ON_OFF[k][7] = 1;
+    }
+  }
+  else{
+    if(NOTE_ON_OFF[k][7] != 0){
+      MIDI.sendNoteOff(NOTELOOKUP[k][7], 0, 1);
+      NOTE_ON_OFF[k][7] = 0;
+    }
+  }
+  //--------------------------------------------
+  
+  analogWrite(pinList[k],HIGHX);
+  
+  MIDI.read();
+}
+                </pre>
+            </div>
+            <hr>
+            <div class="myHeading">
+                <u><b>Understanding the Arduino program:</b></u>
+            </div>
+            <div class="content-body">
+                Reading from pins on Arduino which are not connected to any input source would cause the Arduino to read garbage values.
+                <br>
+                <br>
+                To prevent reading garbage values from these pins, they must be connected to a pullup or pulldown registers. 
+                by using these registers we can read expected value from the pins when they are not connected to anything, instead of reading garbage.
+                <br>
+                <br>
+                Arduino Mega 2560 have pullup registers for all the pins already built in the board. If you wish, you could connect your own pullup/pulldown registers.
+                <br>
+                But here we are using the built in pullup registers on the board.
+                <br>
+                <br>
+                Include the <div class="code">MIDI.h</div> library that we have downloaded from the Arduino's Library Manager.
+                <br>
+                And add the macro <div class="code">MIDI_CREATE_DEFAULT_INSTANCE()</div>.
+                <br>
+                <br>
+                First we define some data structures that the program will use.
+                <br>
+                <div class="code">pinList</div> array store the analog pin from A0 to A5. Thesea are connected to the SEG wires on which value is to be written.
+                <br>
+                <div class="code">NOTELOOKUP</div> is a lookup table storing the mapping between the (SEG,BTN) pair and the key's Note.
+                <br>
+                <div class="code">NOTE_ON_OFF</div> is table which stores the current state of the keypress. 
+                At any instance a key is either pressed (ON) or not (OFF).
+                <br>
+                <br>
+                In the <div class="code">setup()</div> funtion, we call the <div class="code">MIDI.begin(MIDI_CHANNEL_OMNI)</div> function.
+                <br>
+                The function <div class="code">Serial.begin(256000)</div> sets the serial transmission at 256000 baud rate.
+                <br>
+                <br>
+                We set the mode of pins A6 to A13 as input. These will read the values of BTN1 to BTN8 wires.
+                <br>
+                Similarly we set the mode of pins from A0 to A5 as output. These will write the values to SEG1 to SEG6 wires.
+                <br>
+                <br>
+                We then enable the pullup registers for the pins A6 to A13, from which we will be reading BTN values.
+                We write HIGH value of 255 to all the output pins A0-A5 (we are writing HIGH value because we are using pullup registers.)
+                <br>
+                And then we initialize a counter variable, k which will count from 0 to 5 in loop for the SEG pins.
+                <br><br>
+				In the <div class="code">loop()</div> function we define a counter variable <div class="code">k</div> to count from 0 to 5 and repeat. 
+				This counter variable acts as index to <div class="code">pinList</div> array
+                which provides the current output analog pin number.
+                <br>
+                Next we write on output analog pin A(n) (0&lt=n&lt=5), the LOW value of 0.
+                At this point all the other output analog pins are HIGH. These output analog pins are connected to SEG wires.
+                <br>
+                <br>
+                Now we must scan all the BTN wires, i.e all the input analog pins fron A6 to A13. If the circuit from SEG(n) to BTN(k) is complete then the switch/key is closed.
+                A closed key will result in reading of lower value of the input analog pin connected to that BTN wire.
+                <br>
+                <br>
+                By Observation, the value of the analog pin connected to that BTN wire on key press is always lesser that <div class="code">900</div>. In fact it is close to <div class="code">200-300</div> range.
+                This why we compare all the 8 input readings with <div class="code">900</div>.
+                <br>
+                <br>
+                If a button press is detected then send the MIDI note corresponding to that pair of (SEG,BTN) to the serial port using <div class="code">MIDI.sendNote()</div> function.
+                <br>
+                <br>
+                We used a flag to avoid continuous sending of a <div class="code">NoteON</div> signal on key press. The sent Note remains ON as long as the key is pressed.
+                <br>
+				Similarly we used a flag to avoid continuous sending of <div class="code">NoteOFF</div> signal on key press. 
+				This signal is sent only once when the key is released from being pressed and turns the <div class="code">Note OFF</div>.
+                <br>
+                <br>
+                On each <div class="code">loop()</div> we scan all the 8 buttons of the next segment to detect a key press and send the note immediately.
+                <br>
+                The <div class="code">loop()</div> frequency is pretty good and each loop executes in constant time.
+                <br>
+                Also using the max baud rate of <div class="code">256000</div> makes the serial transmission very fast. 
+            </div>
+            <hr>
+            <div class="myHeading">
+                <u><b>Configuring and Setting up the PC:</b></u>
+            </div>
+            <div class="content-body">
+                <ol>
+                    <li>Upload this program on Arduino.</li>
+                    <li>Open "Hairless midi to serial bridge" program on your PC.</li>
+                    <li>From the menu of Hairless go to preferences and set the baud rate to match that of the Arduino's serial-transmission rate (256000 for this tutorial).</li>
+                    <li>Select the input port on which the Arduino is connected. 
+                        Then on the output select the virtual midi driver that you installed.
+                    </li>
+                    <li>Open up the DAW application</li>
+                    <li>Configure the midi input settings in the DAW application by selecting the virtual midi driver that you have installed. 
+                        You might also need to select the correct port. 
+                        Look up the instructions and FAQ of the DAW program that you are using to get the settings correct.
+                    </li>
+                    <li>For a quick test:
+                    <br>
+                    Open up Hairless and press a key. On the Hairless UI interface, the input green light must blink.
+                    <br>
+                    If the midi driver is recieving the signal from the hairless, then the output green light should blink as well.</li>
+                    </ol>
+            </div>
+            <hr>
+            <div class="myHeading">
+                <u><b>Testing:</b></u>
+            </div>
+            <div class="content-body">
+                I will leave the re-assembly of the keyboard upto you.
+                <br>
+                You could use some double sided tapes to fix the Arduino inside the keyboard's case.
+                <br>
+                <br>
+				Now comes testing.
+				<br>
+				<video src="testing.mp4" style="width:300px; height:auto; border-style: solid; border-width: 1px;" controls="true"></video>
+            </div>
+            <hr>
+        </div>
+    </body>
 </html>
